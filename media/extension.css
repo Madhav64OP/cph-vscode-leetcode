@@ -1,0 +1,286 @@
+/* the css below is for the FirstPage Component */
+#main-body-extension {
+	display: flex;
+	flex-direction: column;
+	gap: 10px; 
+	justify-content: center;
+	align-items: center;
+	/* background-color: #e7a41f;  */
+	/* color: #070706;  */
+	/* color: #e7a41f;  */
+	padding: 1.75rem; 
+	/* border:0.7px solid #e7a41f; */
+	border-radius: 0.5rem;
+	padding: 50px 50px 50px 50px;
+	margin-top: -30px;
+  }
+  
+  #heading {
+	font-size: 0.7rem; 
+	font-weight: bold;
+	color: #e7a41f; 
+  }
+  
+  #input-url {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem; 
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: 0px 10px 0px 10px;
+	/* margin-bottom: 13px;  */
+  }
+  
+  #title {
+	font-size: 1rem;
+	margin-left: 13.5px; /* text-xl */
+	margin-right: 13.5px;
+	margin-top: -10px; /* text-xl */
+  }
+  
+  #ip-box input {
+	padding-left: 0.75rem; /* px-3 */
+	padding-right: 0.75rem; /* px-3 */
+	padding-top: 0.5rem; /* py-2 */
+	padding-bottom: 0.5rem; /* py-2 */
+	border-radius: 1.5rem; /* rounded-3xl */
+	border: 1.4px solid #070706; /* border-[2px] and border-[#070706] */
+	outline: none;
+	max-width: 94px;
+	/* min-width: 60px; */
+	width: fit-content;
+	transition: all 0.3s ease-in-out; 
+  }
+  
+  #loader{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+
+  #main-loader{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.125rem;
+	color: #070706;
+	gap: 4px;
+  }
+
+  #spinner {
+	width: 6px; 
+	height: 6px; 
+	/* margin-left: 16px; */
+	animation: spin 1s infinite linear;
+	border-radius: 50%; 
+	/* border-top: 4px solid transparent; */
+	border-top: 1.5px solid #e7a41f;
+	/* border-right: 4px solid #070706;
+	border-bottom: 4px solid #070706;
+	border-left: 4px solid #070706; */
+	border-right: 1.5px solid #e7a41f;
+	border-bottom: 1.5px solid #e7a41f;
+	border-left: 1.5px solid #e7a41f;
+	border-top-color: transparent;
+  }
+
+  #text-loader{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	color: #e7a41f;
+	font-size: x-small;
+  }
+
+  #text-loader p{
+	margin: 0;
+  }
+
+  .text-red-600{
+	color: #c70000;
+	font-weight: 700;
+	font-size: smaller;
+  }
+
+  #get-results{
+	border-width: 2px;
+	border-color: #070706;
+  }
+  
+  #get-results button {
+	color: #e7a41f; /* text-[#e7a41f] */
+	background-color: #070706; /* bg-[#070706] */
+	font-size: 1.1rem; /* text-xl */
+	font-weight: 600; /* font-semibold */
+	border: 0.38px solid #e7a41f;
+	border-radius: 1rem; /* rounded-2xl */
+	padding-left: 0.6rem; /* px-4 */
+	padding-right: 0.6rem; /* px-4 */
+	padding-top: 0.5rem; /* py-2 */
+	padding-bottom: 0.5rem; /* py-2 */
+	transition: all 0.3s;
+	border-radius: 6px;
+    margin-top: 7px;
+  }
+
+  #get-results button:hover {
+	cursor: pointer;
+	opacity: 0.7;
+  }
+
+  @keyframes spin {
+	0%{
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+  }
+
+  /* the css below is for the TestCases Component */
+
+  #main-cases-container {
+    /* background-color: #e7a41f; */
+	gap: 10px; 
+	justify-content: center;
+	align-items: center;
+	/* background-color: #e7a41f;  */
+	/* color: #070706;  */
+	/* color: #e7a41f;  */
+	/* border:0.7px  solid #e7a41f; */
+	border-radius: 0.5rem;
+	padding: 50px 50px 50px 50px;
+	/* margin-top: -30px; */
+
+
+    color: #e7a41f;
+    padding: 10px;
+    /* border-top: 2px solid; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#inputs h1 {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 0.75rem 0;
+}
+
+#select-language {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+#select-language h1 {
+    font-weight: 600;
+}
+
+select {
+    cursor: pointer;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    outline: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#run-cases button {
+    color: white;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+    background-color: #007bff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  #run-cases button:hover {
+    opacity: 0.7;
+  }
+  
+  #add-btn-main {
+    background-color: #28a745;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 1px solid white;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#add-btn-main:hover {
+    background-color: #218838;
+	opacity: 0.7;
+}
+
+
+
+
+
+
+  /* the css below is for the Individual TestCase Component */
+
+  #individual-case {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    border: 2px solid #070706;
+    border-radius: 0.5rem;
+	background-color: white;
+}
+
+#case-area input {
+    background-color: transparent;
+    color: #070706;
+    opacity: 0.7;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    max-width: 85px;
+    outline: none;
+}
+
+#buttons-textcase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+}
+
+#edit-ok-btn {
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    color: white;
+    background-color: #007bff; /* Default state color */
+}
+
+#edit-ok-btn.bg-[#28a745] {
+    background-color: #28a745; /* Tick state color */
+}
+
+#del-btn {
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    background-color: #dc3535;
+}
+
+#del-btn i, #edit-ok-btn i {
+    color: white;
+}
