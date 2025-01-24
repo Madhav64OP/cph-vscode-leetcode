@@ -12,32 +12,47 @@ export function activate(context: vscode.ExtensionContext) {
 		)
 	);
 
-	const getCurrentFileInfo=()=>{
-        const editor=vscode.window.activeTextEditor;
-        if(!editor){
-            vscode.window.showErrorMessage('No File is Open...Please Open a File');
-            return;
-        }
-        const document=editor.document;
-        const fileName=document.fileName;
-        const fileContent=document.getText();
+	context.subscriptions.push(
+		vscode.commands.registerCommand("cph-leetcode.getActiveDetails", async () => {
+			const activeEditor = vscode.window.activeTextEditor;
 
-        console.log(fileName);
-        console.log(fileContent);
-    };
+			if (activeEditor) {
+				const filePath = activeEditor.document.uri.fsPath;
+				const fileContent = activeEditor.document.getText();
+				const fileType = activeEditor.document.languageId;
 
-	const view=vscode.window.createWebviewView(
-		'cph-leetcode-sidebar',
-		sidebarProvider
+				// console.log("The details for the document opeaned is ",filePath,fileContent,fileType);
+				vscode.window.showInformationMessage(`The file details are ${filePath} , ${fileContent}, ${fileType}`);
+			}
+		})
 	);
 
-	view.webview.onDidReceiveMessaage((message)=>{
-		switch(message.command){
-			case 'getCurrentFileInfo':
-				getCurrentFileInfo();
-				return;
-		}
-	},null,context.subscriptions);
+	// const getCurrentFileInfo = () => {
+	// 	const editor = vscode.window.activeTextEditor;
+	// 	if (!editor) {
+	// 		vscode.window.showErrorMessage('No File is Open...Please Open a File');
+	// 		return;
+	// 	}
+	// 	const document = editor.document;
+	// 	const fileName = document.fileName;
+	// 	const fileContent = document.getText();
+
+	// 	console.log(fileName);
+	// 	console.log(fileContent);
+	// };
+
+	// const view = vscode.window.createWebviewView(
+	// 	'cph-leetcode-sidebar',
+	// 	sidebarProvider
+	// );
+
+	// view.webview.onDidReceiveMessage((message) => {
+	// 	switch (message.command) {
+	// 		case 'getCurrentFileInfo':
+	// 			getCurrentFileInfo();
+	// 			return;
+	// 	}
+	// }, null, context.subscriptions);
 
 	// context.subscriptions.push(vscode.commands.registerCommand('cph-leetcode.helloWorld', () => {
 	// 	HelloWorldPanel.createOrShow(context.extensionUri);

@@ -4,5 +4,5 @@
 (function () {
     const vscode = acquireVsCodeApi();
 
-    console.log("Hello from js")
+    console.log("Hello from js");
 }());

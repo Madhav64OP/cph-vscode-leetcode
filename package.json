@@ -43,6 +43,11 @@
         "command": "cph-leetcode.askQuery",
         "category": "CPH-Leetcode",
         "title": "Ask Me"
+      },
+      {
+        "command": "cph-leetcode.getActiveDetails",
+        "category": "CPH-Leetcode",
+        "title": "Get Details for Active Editor"
       }
     ]
   },

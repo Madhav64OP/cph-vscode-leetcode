@@ -21,8 +21,28 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
+        
         webviewView.webview.onDidReceiveMessage(async (data) => {
             switch (data.type) {
+                case "getActiveEditorContent":{
+                    const activeEditor=vscode.window.activeTextEditor;
+                    if(activeEditor && ["python","cpp"].includes(activeEditor.document.languageId.toLowerCase())){
+                        const content =activeEditor.document.getText();
+                        const lang=activeEditor.document.languageId;
+                        webviewView.webview.postMessage({
+                            command:"activeEditorContent",
+                            content:content,
+                            lang:lang
+                        });
+                    }
+                    else{
+                        webviewView.webview.postMessage({
+                            command:"activeTestEditorContent",
+                            content:""
+                        });
+                    }
+                    break;
+                }
                 case "onInfo": {
                     if (!data.value) {
                         return;

@@ -75,7 +75,19 @@ app.post("/api/createFiles", (req, res) => {
 
 app.post("/api/runCode", (req, res) => {
     const data = req.body;
-    const language = data.language;
+    console.log(data);
+    // const fileExtension = data.fileName.split('.').pop().toLowerCase();
+    let language = data.language;
+    if(language==="python"){
+        language="py";
+    }
+    if (language !=="py" && language!=="cpp") {
+        return res.status(400).json({
+            error: true,
+            mesage: "Please Select a either C++ or Python",
+            type: "LANGUAGE_NOT_SELECTED"
+        });
+    }
     const codeContent = data.codeContent;
     console.log(`language is ${language},code =${codeContent}`);
     console.log(`languge type= ${typeof (language)} code type=${typeof (codeContent)}`);
@@ -100,13 +112,6 @@ app.post("/api/runCode", (req, res) => {
 
     let compiledFile = path.join(tempFilesPath, 'compiledCode');
 
-    if (!language) {
-        return res.status(400).json({
-            error: true,
-            mesage: "Please Select a Language",
-            type: "LANGUAGE_NOT_SELECTED"
-        });
-    }
 
     if (language !== "cpp" && language !== "py") {
         return res.status(400).json({
@@ -167,6 +172,12 @@ app.post("/api/runCode", (req, res) => {
     };
 
     const runPythonCode = async (testCaseIdx, inputData, fileName) => {
+        if(language==="cpp"){
+            res.send(400).json({
+                mesage:"Wrong Language Selected",
+                sucess:false
+            });
+        }
         return new Promise((resolve, reject) => {
             // const fileContent = fs.readFileSync(mainDir, 'inputs', file);
             const pythonProcess = spawn(pythonCommand, [codeFileNamePath]);
