@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import IndividualTest from "./IndividualTest";
 import { TodoProvider } from "../context/TodoContext";
+import { time } from "console";
 
 function TestCases({ initialtestCase = { input: '', output: '' } }) {
     const [language, setLanguage] = useState("");
@@ -98,8 +99,8 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
 
             fileReader.readAsText(file);
             const content = await readFile;
-            setCodeFileName(file.name);
             setFileLoaded(true);
+            setCodeFileName(file.name);
             setCodeFileContent(content);
 
 
@@ -116,7 +117,36 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
     }
 
 
-    //main backend wala part
+    //main backend wala part and vs code backend
+    const getActiveEditorContent = async () => {
+        if (!window.vscodeApi) {
+            window.vscodeApi = window.acquireVsCodeApi();
+        }
+    
+        return new Promise((resolve, reject) => {
+            const messageHandler = (event) => {
+                console.log("Received message:", event.data);
+                if (event.data.command === "activeEditorContent") {
+                    window.removeEventListener("message", messageHandler);
+                    resolve({
+                        content: event.data.content || "",
+                        lang: event.data.lang || ""
+                    });
+                }
+            };
+    
+            window.addEventListener("message", messageHandler);
+    
+            window.vscodeApi.postMessage({ type: "getActiveEditorContent" });
+    
+            const timeoutId = setTimeout(() => {
+                window.removeEventListener("message", messageHandler);
+                resolve({ content: "", lang: "" });
+            }, 2000);
+        });
+    };
+
+
     const createFiles = async () => {
         setLoaded(false);
         const data = todos.map((todoEach, i) => ({
@@ -149,15 +179,17 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
     };
 
 
-
-    const runCode = async () => {
+    const runCode = async (editorContent, editorLang) => {
         // console.log(language);
         // console.log(codeFileContent);
         setLoaded(false);
         try {
             const data = {
-                language: String(language),
-                codeContent: String(codeFileContent)
+                // language: String(language),
+                language: String(editorLang),
+                // codeContent: String(codeFileContent),
+                codeContent: String(editorContent),
+                fileName: String(codeFileName),
             }
             const response = await fetch('http://localhost:5000/api/runCode', {
                 method: 'POST',
@@ -173,11 +205,11 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
 
             // setBackendCodeResponse(jsonReturned);
 
-            setTodos((prevTodo) => 
+            setTodos((prevTodo) =>
                 prevTodo.map((todo) => {
                     const matchedResponse = jsonReturned.find((res) => res.id === String(todo.id));
                     if (matchedResponse) {
-                        return { ...todo, completed: matchedResponse.sucess};
+                        return { ...todo, completed: matchedResponse.sucess };
                     }
                     return todo;
                 })
@@ -193,30 +225,11 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
             //     })
             // );
 
-            if (!jsonReturned.error) {
+            if (jsonReturned.error) {
                 setErrorMessage("Error reading files :", jsonReturned.mesage);
                 setTimeout(setErrorMessage("",), 2200);
             }
-            
-            // todos.forEach((todoInd) => {
-            //     console.log(todoInd)
-            // });
-            // jsonReturned.forEach((eachRecieved) => {
-            //     const matchId=eachRecieved.id;
-            //     todos.forEach((eachTodo)=>{
-            //         if(eachTodo.id===matchId){
-            //             updateTodo(eachTodo.id,{...eachTodo,completed:eachRecieved.sucess});
-            //         }
-            //     });
-            //     todos.forEach((todoInd)=>{
-            //         console.log(todoInd)
-            //     })
-            //     // if (eachRecieved.sucess) {
-            //         // toggleComplete(eachRecieved.id);
-            //         // updateTodo(eachRecieved.id,)
-            //         // console.log("toggle ho gya.....:on ",eachRecieved.id);
-            //     // };
-            // });
+
         } catch (err) {
             setErrorMessage("Error reading files :", err);
             setTimeout(setErrorMessage("",), 2200);
@@ -225,16 +238,27 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
     }
 
     const handleRunCasesButton = async () => {
-        await createFiles();
-        await runCode();
-    }
-
-    // useEffect(() => {
-    //   backendCodeResponse.forEach((eachRecieved)=>{
-    //     toggleComplete(eachRecieved.id);
-    // });
-    // }, [backendCodeResponse]);
-
+        try {
+            const editorData = await getActiveEditorContent();
+            
+            console.log("Full editor data:", editorData);
+    
+            if (!editorData.content) {
+                setErrorMessage("No active editor content found");
+                return;
+            }
+    
+            await createFiles();
+            await runCode(editorData.content, editorData.lang);
+        } catch (err) {
+            setErrorMessage(err.message || "Error retrieving editor content");
+        }
+        finally{
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 2300);
+        }
+    };
 
 
     return (
@@ -264,14 +288,14 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
 
 
                 <div id="select-language" className="flex  flex-col justify-center items-center gap-1 ">
-                    <h1 className="font-semibold text-white">Select Language</h1>
-                    <select className="hover:cursor-pointer rounded-lg px-[8px] py-1 outline-none shadow-lg" name="Language Button" id="selector-lang" onChange={HandleLanguageClick}>
-                        <option value="">--Select--</option>
+                    <h1 className="font-semibold text-[#e7a41f] text-xs">Upload Code :: C++ or Python</h1>
+                    {/* <h1 className="hover:cursor-pointer rounded-lg px-[8px] py-1 outline-none shadow-lg" name="Language Button" id="selector-lang" > */}
+                    {/* <option value="">--Select--</option>
                         <option value="py" >python</option>
-                        <option value="cpp" >C++</option>
-                    </select>
+                        <option value="cpp" >C++</option> onChange={HandleLanguageClick} */}
+                    {/* </h1> */}
                 </div>
-                <div id="upload-code " className="bg-[#e7a41f] px-2 py-1 rounded-md font-semibold text-center my-3 transition-all duration-300 hover:opacity-70">
+                {/* <div id="upload-code " className="bg-[#e7a41f] px-2 py-1 rounded-md font-semibold text-center my-3 transition-all duration-300 hover:opacity-70">
                     <div id="button-upload" className="flex flex-col justify-center items-center ">
                         <input type="file" id="file-upload" accept=".py,.cpp" placeholder="Upload Code Here" onChange={handleInputFile} style={{ display: 'none' }} />
                         <div id="label-check" className="flex justify-center items-center flex-col ">
@@ -280,7 +304,7 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
                             {fileLoaded && <p className={`text-[#28a745] bg-[#070706] px-[8px] py-[2px] text-center rounded-full`}>{codeFileName} ✔ </p>}
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {/* {loaded && (
                     <div id="loader-code" className="flex justify-center items-center ">
                         <div id="main-loader" className="flex text-[#e7a41f] justify-center items-center text-lg gap-2">
@@ -290,12 +314,14 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
                         </div>
                     </div>
                 )} */}
-                <div id="run-cases">
+                {errorMessage &&
+                            <p className="text-red-600 w-full">{errorMessage}</p>}
+                <div id="run-cases" className="mb-4">
                     <div id="get-results" className="border-2xl border-[#070706]">
                         <button onClick={handleRunCasesButton} className="text-white outline-none transition-all duration-300 hover:opacity-70 bg-[#007bff] text-lg font-semibold border-2 rounded-lg px-2 py-1 border-[#fff] mb-4">
                             Run Cases
                         </button>
-                        <p className="text-red-600 bg-white">{errorMessage}</p>
+                        
                     </div>
                 </div>
             </div>
