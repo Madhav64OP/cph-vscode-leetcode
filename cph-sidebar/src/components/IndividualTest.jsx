@@ -78,7 +78,7 @@ function IndividualTest({ todo }) {
   return (
     <div
       id="individual-case"
-      className={`flex justify-between flex-col items-center  ${todoCompleted===null?" border=[#5a5a55] ":!todoCompleted ? 'border-[#dc3535]' : 'border-[#28a745]'}  border-[4px] rounded-lg `}
+      className={`flex justify-between flex-col items-center  ${todoCompleted===null?" border-[#5a5a55] ":!todoCompleted ? 'border-[#dc3535]' : 'border-[#d8dbd9]'}  border-[4px] rounded-lg `}
     >
       <div id="case-area" className=" outline-none  rounded-lg px-4 py-6 gap-4 flex justify-center items-center flex-col">
         <h5 className="text-[#c1c1ba] font-bold self-start my-[-6px] text-sm">Inputs</h5>

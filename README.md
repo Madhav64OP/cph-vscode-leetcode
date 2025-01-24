@@ -1,71 +1,49 @@
-# cph-leetcode README
+# CPH_LEETCODE VS Code Extension
 
-This is the README for your extension "cph-leetcode". After writing up a brief description, we recommend including the following sections.
+## Overview
+
+The **CPH_LEETCODE** VS Code extension integrates the LeetCode platform directly into VS Code, enabling you to run and test your LeetCode solutions against custom test cases directly from your editor. This extension allows you to fetch test cases, add your own inputs/outputs, and test your code without leaving the VS Code environment.
+
+The extension provides a seamless workflow between the VSCode Editor, backend (Node.js with Express), and frontend (ReactJS) and extensiton maded in TypeScript maded with the Yo Code Generator. Test cases are managed in a TODO format and allows the user to test on his on cases of his choiuce as well as the cases on recieved form the Alfa API Response, which is then sent to the backend to create input/output files and execute the code automatically in the selected language (Python or C++) and which recievs the code contntent automatically from the onDidRecieveMessage functionality in vs code with the help of a custom command getActiveEditorContent....which send the cutrrent text window and language of the code written in the current test window and then based on thatit send it to backend via frontend and then backend sends back response which is the displaed accoringly in the ui frontend.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Sidebar Integration**: A custom sidebar that is registerd in extension.ts within VS Code where you can manage and test your LeetCode test cases and with your own test cases.
+- **Dynamic Test Case Management**: Add custom test cases in the TODO format, automatically creating input/output files and also run edit them just by clicking on them and tpying straight.
+- **Automatic Code Execution**: Automatically detects the language and code content form the active winow where user write the code and  runs the code against the test cases for Python and C++ without manual language selection all the process is automated with the help of onDidrecienveMessage Functionly in the webview
+- **Backend Integration**: Node.js and Express API to handle test case file creation and execution and returning json along with error handling for bad inputs/no inputsand other misscelenaous fixes.
+- **Real-time Status Updates**: Visual feedback in the VS Code sidebar based on whether the code execution is successful or not (Green for Success, Red for Failure) which updared in the state which in turn ius mangedd by the contextual api conept of react to manage the sate accorss the diffent components.
 
-For example if there is an image subfolder under your extension project workspace:
+## Workflow
 
-\!\[feature X\]\(images/feature-x.png\)
+### 1. **Frontend (ReactJS)**:
+   - **MainPage**: Displays the main interface, including the list of test cases, a TODO list, and buttons to run code.
+   - **TestCase Component**: Handles individual test case execution, displaying inputs and outputs for each test.
+   - **Input/Output Handling**: Each test case contains input and output sections formatted in TODO type. The frontend sends these inputs/outputs to the backend for file creation and code execution.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### 2. **Backend (Node.js & Express)**:
+   - **File Creation**: The backend creates a folder named `generatedFiles` containing `input` and `output` folders. Inside each folder, files like `input_1_id="....".txt` are created for each test case. The backend ensures that the directories are automatically recreated when deleted.
+   - **Code Execution**: When the user runs the test, the backend creates temporary code files (e.g., `temp.cpp` or `temp.py`) in the `tempFiles` directory. The code is compiled (using `g++` for C++ and `python` for Python) and executed against the test cases.
+   - **Output Comparison**: The backend compares the generated output with the expected output from the test case and returns the success or failure status.
 
-## Requirements
+### 3. **Test Case Execution**:
+   - The active code in the VS Code editor is fetched using the VS Code API.
+   - The frontend sends the active code content along with its language (detected automatically from the file type) to the backend for execution.
+   - The backend runs the code against each test case and compares the outputs. If the outputs match, the test case is marked as "Success" (Green); otherwise, it is marked as "Failure" (Red).
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### 4. **UI Updates**:
+   - Based on the API response, the frontend updates the UI with success or failure messages and highlights the respective test case in green (for success) or red (for failure).
 
-## Extension Settings
+## Installation
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### Prerequisites
 
-For example:
+1. **Node.js** and **npm** installed on your system.
+2. **VS Code** installed with the ability to run extensions.
+3. **ReactJS** and other frontend dependencies should be built and ready to use in the `build/` folder of your project.
 
-This extension contributes the following settings:
+### 1. Clone the Repository
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+```bash
+git clone https://github.com/your-username/cph-leetcode-extension.git
+cd cph-leetcode-extension
