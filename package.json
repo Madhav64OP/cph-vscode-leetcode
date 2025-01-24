@@ -52,7 +52,7 @@
     ]
   },
   "scripts": {
-    "install:all": "npm install && cd webview-ui && npm install",
+    "install:all": "npm install && cd backend && npm install && cd .. && cd cph-sidebar && npm install",
     "start:backend": "cd backend && npm run start",
     "build:app": "cd cph-sidebar && npm run build",
     "build:css": "npx tailwindcss -i ./media/tail.css -o ./media/output.css --watch",

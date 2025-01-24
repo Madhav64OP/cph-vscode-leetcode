@@ -288,7 +288,7 @@ function TestCases({ initialtestCase = { input: '', output: '' } }) {
 
 
                 <div id="select-language" className="flex  flex-col justify-center items-center gap-1 ">
-                    <h1 className="font-semibold text-[#e7a41f] text-xs">Upload Code :: C++ or Python</h1>
+                    {/* <h1 className="font-semibold text-[#e7a41f] text-xs">C++ or Python</h1> */}
                     {/* <h1 className="hover:cursor-pointer rounded-lg px-[8px] py-1 outline-none shadow-lg" name="Language Button" id="selector-lang" > */}
                     {/* <option value="">--Select--</option>
                         <option value="py" >python</option>

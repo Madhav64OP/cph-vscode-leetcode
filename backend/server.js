@@ -177,6 +177,7 @@ app.post("/api/runCode", (req, res) => {
                 mesage:"Wrong Language Selected",
                 sucess:false
             });
+            return;
         }
         return new Promise((resolve, reject) => {
             // const fileContent = fs.readFileSync(mainDir, 'inputs', file);
