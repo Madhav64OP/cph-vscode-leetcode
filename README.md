@@ -23,7 +23,7 @@ The extension provides a seamless workflow between the VSCode Editor, backend (N
 
 ### 2. **Backend (Node.js & Express)**:
    - **File Creation**: The backend creates a folder named `generatedFiles` containing `input` and `output` folders. Inside each folder, files like `input_1_id="....".txt` are created for each test case. The backend ensures that the directories are automatically recreated when deleted.
-   - **Code Execution**: When the user runs the test, the backend creates temporary code files (e.g., `temp.cpp` or `temp.py`) in the `tempFiles` directory. The code is compiled (using `g++` for C++ and `python` for Python) and executed against the test cases.
+   - **Code Execution**: When the user runs the test, the backend creates temporary code files (e.g., `tempCodefile_id="".cpp` or `tempCodefile_id="".py`) in the `tempFiles` directory. The code is compiled (using `g++` for C++ and `python` for Python) and executed against the test cases.
    - **Output Comparison**: The backend compares the generated output with the expected output from the test case and returns the success or failure status.
 
 ### 3. **Test Case Execution**:
@@ -40,6 +40,7 @@ The extension provides a seamless workflow between the VSCode Editor, backend (N
 
 1. **Node.js** and **npm** installed on your system.
 2. **VS Code** installed with the ability to run extensions.
+4. **Compiler and languages** g++ compiler and python.
 3. **ReactJS** and other frontend dependencies should be built and ready to use in the `build/` folder of your project.
 
 ### 1. Clone the Repository
@@ -47,3 +48,13 @@ The extension provides a seamless workflow between the VSCode Editor, backend (N
 ```bash
 git clone https://github.com/your-username/cph-leetcode-extension.git
 cd cph-leetcode-extension
+npm run install:all
+```
+### 2. Open Another Terminal
+```bash
+cd backend
+npm run start
+```
+and then open go in extension.ts and press f5/ or other command to open the the debug window which starts the extesnion in other vs code window with our sidebar there for use.
+### 3. Enjoy the Extension
+Now you can run, test and enjoy working with the extension. :)
