@@ -46,8 +46,8 @@ The extension provides a seamless workflow between the VSCode Editor, backend (N
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/cph-leetcode-extension.git
-cd cph-leetcode-extension
+git clone https://github.com/Madhav64OP/cph-vscode-leetcode.git
+cd cph-vscode-leetcode 
 npm run install:all
 ```
 ### 2. Open Another Terminal
@@ -55,6 +55,6 @@ npm run install:all
 cd backend
 npm run start
 ```
-and then open go in extension.ts and press f5/ or other command to open the the debug window which starts the extesnion in other vs code window with our sidebar there for use.
+and then open go in extension.ts in src folder and press f5/ then selct vs code extension development to test or other command to open the the debug window which starts the extesnion in other vs code window with our sidebar there for use.
 ### 3. Enjoy the Extension
 Now you can run, test and enjoy working with the extension. :)
